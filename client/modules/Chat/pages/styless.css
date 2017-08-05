@@ -1,0 +1,27 @@
+.leftChat {
+  word-wrap: break-word;
+  max-width: 80%;
+  clear: both;
+  float: left;
+  margin: 4px !important;
+  text-align: left;
+  white-space: normal !important;
+  word-break: break-all;
+}
+.leftChat span {
+  white-space: inherit !important;
+}
+
+.rightChat {
+  word-wrap: break-word;
+  max-width: 80%;
+  clear: both;
+  float: right;
+  margin: 4px !important;
+  text-align: right;
+  white-space: normal !important;
+  word-break: break-all;
+}
+.rightChat span {
+  white-space: inherit !important;
+}

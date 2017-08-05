@@ -1,0 +1,18 @@
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+.nav-item>img {
+  padding: 7px 14px;
+}
+.navbar-nav>li>a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.taga {
+  height: 50px;
+  width: 50px;
+}
+.taga a{
+  padding-top: 10px !important;
+}

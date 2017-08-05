@@ -1,0 +1,19 @@
+@media (max-width: 776px) {
+  .datesNewlineTwo{
+    display: inline-flex;
+    width: 50%
+  }
+  .datesNewlineOne{
+    display: inline-flex;
+  }
+}
+@media (min-width: 776px) {
+  .datesNewlineTwo{
+    display: inline-flex;
+    width: 50%
+  }
+  .datesNewlineOne{
+    display: inline-flex;
+    width: 50%
+  }
+}
