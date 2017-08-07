@@ -504,9 +504,13 @@ export function search(req, res){
       }
     },
   ]).exec((err, user) => {
-    if (err) res.json({ user: [] });
+    if (err) res.json({ user: [{ count: 0, users: [] }] });
     else {
-      res.json({user});
+      if (user.length > 0) {
+        res.json({user});
+      } else {
+        res.json({ user: [{ count: 0, users: [] }] });
+      }
     }
   })
 }

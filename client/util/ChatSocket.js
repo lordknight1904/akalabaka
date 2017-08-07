@@ -6,7 +6,7 @@ export default class ChatSocket {
   constructor() {
     this.userID = null;
     this.connected = false;
-    this.socket = io.connect('http://localhost:8000');
+    this.socket = io.connect('http://ieltsspeakingmeetup:8000');
   }
 
   /**

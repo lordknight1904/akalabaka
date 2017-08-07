@@ -47,8 +47,8 @@ export class App extends Component {
           <div className='col-md-12' style={{ minHeight: '100%', position: 'relative', paddingLeft: '0px', paddingRight: '0px' }} >
             <div className='col-md-12' >
               <Helmet
-                title="My Starter"
-                titleTemplate="%s - Blog App"
+                title="Ielts Speaking Meetup"
+                titleTemplate="%s - Beta"
                 meta={[
                   { charset: 'utf-8' },
                   {
