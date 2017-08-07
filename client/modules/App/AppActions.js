@@ -44,6 +44,8 @@ export const ACTIONS = {
   LIKED: 'LIKED',
   FOLLOWED: 'FOLLOWED',
   SEARCH_RESULTS: 'SEARCH_RESULTS',
+  CURRENT_PAGE: 'CURRENT_PAGE',
+  PAGES: 'PAGES',
 };
 
 export function liked(liked){
@@ -120,10 +122,25 @@ export function addSearch(user) {
     user
   };
 }
+export function currentPage(currentPage) {
+  return {
+    type: ACTIONS.CURRENT_PAGE,
+    currentPage
+  };
+}
+export function addPages(pages) {
+  return {
+    type: ACTIONS.PAGES,
+    pages
+  };
+}
 export function fetchSearch(path) {
   return (dispatch) => {
     return callApi(`${path}`).then(res => {
-      dispatch(addSearch(res.user));
+      console.log(res);
+      dispatch(addSearch(res.user[0].users));
+      dispatch(addPages(Math.ceil(res.user[0].count / 10)));
+      dispatch(currentPage(1));
     });
   }
 }
@@ -425,7 +442,6 @@ export function updateGender(gender) {
 
 
 export function updatedFee(fee){
-  console.log(fee);
   return {
     type: ACTIONS.FEE_UPDATED,
     fee,

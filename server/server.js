@@ -21,10 +21,10 @@ if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(config);
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
   app.use(webpackHotMiddleware(compiler));
-  app.use('/public', Express.static('./public'));
-  app.use('/images', Express.static('./public/images'));
-  app.use('/util', Express.static('./server/util'));
 }
+app.use('/public', Express.static('./public'));
+app.use('/images', Express.static('./public/images'));
+app.use('/util', Express.static('./server/util'));
 
 // React And Redux Setup
 import { configureStore } from '../client/store';

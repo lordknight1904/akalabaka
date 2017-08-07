@@ -6,7 +6,7 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import { InputGroup, Button, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl';
 
-import { getCities, getDistricts } from '../../AppReducer';
+import { getCities, getDistricts, getCurrentPage } from '../../AppReducer';
 import { fetchDistrict } from '../../AppActions';
 import { fetchSearch } from '../../../App/AppActions';
 
@@ -30,12 +30,14 @@ class SearchBar extends Component {
     const city = (this.state.city !== 'City') ? this.state.city : null;
     const district = (this.state.district !== 'District') ? this.state.district : null;
     const fee = (this.state.fee !== 'Fee') ? this.state.fee : null;
+    const page = this.props.currentPage;
     let path = 'search?';
-    let nameBool = false, cityBool: false, districtBool: false;
+    let nameBool = false, cityBool: false, districtBool: false, feeBool: false;
     if(name !== null && name !== '')  { path += `name=${name}`; nameBool = true; }
     if(city !== null) { path += (nameBool) ? `&city=${city}` : `city=${city}`; cityBool = true; }
     if(district !== null) { path += (nameBool || cityBool) ? `&district=${district}` : `district=${district}`; districtBool = true; }
-    if(fee !== null) { path += (nameBool || cityBool || districtBool) ? `&fee=${fee}` : `fee=${fee}`; }
+    if(fee !== null) { path += (nameBool || cityBool || districtBool) ? `&fee=${fee}` : `fee=${fee}`; feeBool = true; }
+    if(page > 1) { path += (nameBool || cityBool || districtBool || feeBool) ? `&page=${page}` : `page=${page}`; }
     this.context.router.push(`/${path}`);
     this.props.dispatch(fetchSearch(path));
   };
@@ -89,7 +91,6 @@ class SearchBar extends Component {
               </DropdownButton>
             </InputGroup.Button>
 
-            {/*emptyLabel={<FormattedMessage id="nomatch" />}*/}
             <Typeahead
               align='justify'
               onInputChange={e => this.handleSearch(e)}
@@ -123,7 +124,7 @@ class SearchBar extends Component {
                   borderColor: '#ccc'
                 }}
               >
-                  {<FormattedMessage id="search" />}
+                {<FormattedMessage id="search" />}
               </Button>
             </InputGroup.Button>
 
@@ -142,6 +143,7 @@ function mapStateToProps(state) {
     intl: state.intl,
     cities: getCities(state),
     districts: getDistricts(state),
+    currentPage: getCurrentPage(state),
   };
 }
 
@@ -149,6 +151,7 @@ SearchBar.propTypes = {
   intl: PropTypes.object.isRequired,
   districts: PropTypes.array.isRequired,
   cities: PropTypes.array.isRequired,
+  currentPage: PropTypes.number.isRequired,
 };
 
 SearchBar.contextTypes = {

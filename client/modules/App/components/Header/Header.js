@@ -77,7 +77,7 @@ class Header extends Component{
         <Navbar inverse collapseOnSelect  >
           <Navbar.Header>
             <Navbar.Brand>
-              <a onClick={() => {this.context.router.push('/');}} >Ielts Speaking Meet Up</a>
+              <a onClick={() => {this.context.router.push('/');}} >Ielts Speaking Meetup</a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>

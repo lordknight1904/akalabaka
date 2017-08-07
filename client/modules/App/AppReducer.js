@@ -50,6 +50,8 @@ const initialState = {
   selectedCuid: '',
 
   search: [],
+  currentPage: 0,
+  pages: 0,
 };
 
 const AppReducer = (state = initialState, action) => {
@@ -57,6 +59,18 @@ const AppReducer = (state = initialState, action) => {
     case REHYDRATE:
       const incoming = action.payload.app;
       return {...state};
+    case ACTIONS.CURRENT_PAGE: {
+      return {
+        ...state,
+        currentPage: action.currentPage
+      }
+    }
+    case ACTIONS.PAGES: {
+      return {
+        ...state,
+        pages: action.pages
+      }
+    }
     case ACTIONS.LIKED: {
       const index = state.search.findIndex((s) => {
         return s._id === action.liked.userId;
@@ -407,6 +421,8 @@ export const getDistricts2 = state => state.app.districts2;
 export const getChatList = state => state.app.chatList;
 export const getSelectedCuid = state => state.app.selectedCuid;
 export const getSearch = state => state.app.search;
+export const getCurrentPage = state => state.app.currentPage;
+export const getPages = state => state.app.pages;
 
 // Export Reducer
 export default AppReducer;

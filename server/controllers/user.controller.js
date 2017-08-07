@@ -460,45 +460,49 @@ export function search(req, res){
   const city = (req.query.city !== undefined && req.query.city !== '') ? new RegExp(`^${req.query.city}`, 'i') : new RegExp('.*', 'i');
   const district = (req.query.district !== undefined && req.query.district !== '') ? new RegExp(`^${req.query.district}`, 'i') : new RegExp('.*', 'i');
   const fee = (req.query.fee !== undefined && req.query.fee !== '' && req.query.fee !== 'none') ? req.query.fee : 0;
-  const page = (req.query.page !== undefined && req.query.page !== '' && req.query.page !== 'none') ? req.query.page : 0;
+  const page = (req.query.page !== undefined && req.query.page !== '' && req.query.page !== 'none') ? req.query.page : 1;
+  const isFee = (fee > 0) ? false : 'every';
   User.aggregate([
     { $match:
       {
         'address.city': city,
         'address.district': district,
         name: name,
-        $or: [
-          {
-            $and: [
-              { fee: {$gte: Number(fee) * 1000}, },
-              { isFee: true }
-            ]
-          },
-          { isFee: false }
-        ]
-
+        fee: {$gte: Number(fee) * 1000},
+        isFee: {$ne: isFee},
       },
     },
-    {
-      $project: {
-        _id: '$_id',
-        name: '$name',
-        about: '$about',
-        address: '$address',
-        imgUrl: '$imgUrl',
-        avatarUrl: '$avatarUrl',
-        likes: '$likes',
-        follows: '$follows',
-        reading: '$reading',
-        speaking: '$speaking',
-        writing: '$writing',
-        listening: '$listening',
-        point: { $sum: [ { "$size": "$likes" }, { "$size": "$follows" } ]}
+    {   $group:
+      {
+        _id: {
+          _id: '$_id',
+          name: '$name',
+          about: '$about',
+          address: '$address',
+          imgUrl: '$imgUrl',
+          avatarUrl: '$avatarUrl',
+          likes: '$likes',
+          follows: '$follows',
+          reading: '$reading',
+          speaking: '$speaking',
+          writing: '$writing',
+          listening: '$listening',
+          count: '$count',
+          point: { $sum: [ { "$size": "$likes" }, { "$size": "$follows" } ]}
+        },
+        count: { $sum: 1 },
       },
     },
     { $sort: { point: 1 } },
-    { $skip: Number(page) * 10 },
+    { $skip: Number(page - 1) * 10 },
     { $limit: 10 },
+    {
+      $group: {
+        _id: null,
+        count: { "$sum": 1 },
+        users: { $push: "$_id" }
+      }
+    },
   ]).exec((err, user) => {
     if (err) res.json({ user: [] });
     else {
